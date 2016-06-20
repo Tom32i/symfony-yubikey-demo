@@ -1,0 +1,57 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+        Tom32i\YubikeyBundle\Security\User\User:
+            algorithm: bcrypt
+            cost: 12
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory_yubikey:
+                users:
+                    admin:
+                        #password: admin
+                        password: '$2y$12$BYZoskG4.I96TQkhk.RocehsBetn7eIxODe6zu9weuiqZ3rdoPcb2'
+                        roles: 'ROLE_ADMIN'
+                        yubikey: 'vvkifndechgf'
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+            # http_basic: ~
+
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            form_login:
+                login_path: login_simple
+                check_path: login_simple
+                username_parameter: login[username]
+                password_parameter: login[password]
+
+            otp_form_login:
+                login_path: login
+                check_path: login
+
+            remember_me:
+                secret: "%secret%"
+                remember_me_parameter: "login[remember_me]"
+
+            logout:
+                path: /logout
+                target: /
+
+    access_control:
+        - { path: ^/profile/two-factor, roles: IS_AUTHENTICATED_TWO_FACTOR }
+        - { path: ^/profile/fully, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/profile, roles: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/admin, roles: ROLE_ADMIN }

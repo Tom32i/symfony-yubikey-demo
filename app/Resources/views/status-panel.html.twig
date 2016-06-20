@@ -1,0 +1,14 @@
+<ul class="status-panel">
+    <li>{{ _self.status('Anomymous', is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) }}</li>
+    <li>{{ _self.status('Remembered', is_granted('IS_AUTHENTICATED_REMEMBERED')) }}</li>
+    <li>{{ _self.status('Fully', is_granted('IS_AUTHENTICATED_FULLY')) }}</li>
+    <li>{{ _self.status('Two-factor', is_granted('IS_AUTHENTICATED_TWO_FACTOR')) }}</li>
+    <li>{{ _self.status('Admin', is_granted('ROLE_ADMIN')) }}</li>
+</ul>
+
+{%- macro status(label, on) -%}
+    {{ label|humanize }}:
+    <span class="status {{ on ? 'on' : 'off' }}">
+        {{ on ? 'true' : 'false' }}
+    </span>
+{%- endmacro -%}

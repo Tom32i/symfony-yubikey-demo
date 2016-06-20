@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- OTP + DAO Authentication Provider -->
+        <service
+            id="security.authentication.provider.otp_dao"
+            class="Tom32i\YubikeyBundle\Security\Authentication\Provider\OtpDaoAuthenticationProvider"
+            parent="security.authentication.provider.dao"
+            abstract="true"
+            public="false"
+        >
+            <!--argument>Yubico Checker (automatically provided by extension)</argument-->
+        </service>
+
+        <!-- OTP Authentication Listener -->
+        <service
+            id="security.authentication.listener.otp_form"
+            parent="security.authentication.listener.form"
+            class="Tom32i\YubikeyBundle\Security\Http\Firewall\UsernamePasswordOTPFormAuthenticationListener"
+            abstract="true"
+        >
+        </service>
+
+        <!-- Abstract Yubico Checker service -->
+        <service
+            id="tom32i_yubikey.yubico_checker"
+            class="Tom32i\YubikeyBundle\Yubico\YubicoCheckerInterface"
+            abstract="true"
+        >
+            <!--argument>Client ID (automatically provided by extension)</argument-->
+            <!--argument>API Key (automatically provided by extension)</argument-->
+        </service>
+
+        <!-- Two-Factor Authentication Voter -->
+        <service
+            id="tom32i_yubikey.voter.two_factor"
+            class="Tom32i\YubikeyBundle\Security\Voter\TwoFactorAuthenticatedVoter"
+            public="false"
+        >
+            <tag name="security.voter" />
+        </service>
+
+        <!-- User provider: in memory + Yubikey -->
+        <service
+            id="tom32i_yubikey.security.user.provider.in_memory"
+            class="Tom32i\YubikeyBundle\Security\User\InMemoryUserProvider"
+            abstract="true"
+            public="false"
+        />
+        <service
+            id="tom32i_yubikey.security.user.provider.in_memory.user"
+            class="Tom32i\YubikeyBundle\Security\User\User"
+            abstract="true"
+            public="false"
+        />
+    </services>
+</container>

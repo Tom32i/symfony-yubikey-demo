@@ -1,0 +1,43 @@
+body {
+    background: #F5F5F5;
+    margin-top: 2em;
+}
+
+.content {
+    background-color: white;
+    padding: 1em;
+    border-radius: 2px;
+}
+
+.status-panel {
+    margin: 0;
+    list-style: none;
+}
+
+.status-panel li {
+    font-weight: bold;
+    float: left;
+    margin: 1em;
+}
+
+.errors {
+    color: #9b4dca;
+    list-style: none;
+}
+
+.menu .button {
+    display: block;
+    width: 100%;
+}
+
+.status {
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0.2em 0.4em;
+    color: white;
+    border-radius: 0.2em;
+    font-family: monospace;
+}
+
+.status.on {  background-color: green; }
+.status.off {  background-color: red; }

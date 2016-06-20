@@ -1,0 +1,18 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+login:
+    path: /login
+    defaults:
+      _controller: Tom32iYubikeyBundle:Security:login
+
+login_simple:
+    path: /login-simple
+    defaults:
+      _controller: Tom32iYubikeyBundle:Security:login
+      template: ':default:login.html.twig'
+      second_factor: false
+
+logout:
+    path: /logout
