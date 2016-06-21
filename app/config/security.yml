@@ -42,6 +42,13 @@ security:
                 login_path: login
                 check_path: login
 
+            #simple_form:
+            #    authenticator: tom32i_yubikey.simpl_form_authenticator.one_time_password
+            #    login_path: login
+            #    check_path: login
+            #    username_parameter: login[username]
+            #    password_parameter: login[password]
+
             remember_me:
                 secret: "%secret%"
                 remember_me_parameter: "login[remember_me]"

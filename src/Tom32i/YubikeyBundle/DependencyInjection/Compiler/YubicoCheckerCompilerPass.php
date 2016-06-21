@@ -65,6 +65,11 @@ class YubicoCheckerCompilerPass implements CompilerPassInterface
         $container
             ->getDefinition('security.authentication.provider.otp_dao')
             ->addArgument(new Reference($checker));
+
+        // Add the checker to the Two-Factor Simple Form Authenticator
+        $container
+            ->getDefinition('tom32i_yubikey.simpl_form_authenticator.one_time_password')
+            ->addArgument(new Reference($checker));
     }
 
     /**

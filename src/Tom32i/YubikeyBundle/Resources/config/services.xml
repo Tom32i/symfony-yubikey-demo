@@ -57,5 +57,16 @@
             abstract="true"
             public="false"
         />
+
+        <!-- One-Time-Password Simple Form Authenticator -->
+        <service
+            id="tom32i_yubikey.simpl_form_authenticator.one_time_password"
+            class="Tom32i\YubikeyBundle\Security\Authenticator\OneTimePasswordFormAuthenticator"
+        >
+            <argument type="service" id="security.password_encoder" />
+            <!--argument>Yubico Checker (automatically provided by extension)</argument-->
+        </service>
+
+
     </services>
 </container>
