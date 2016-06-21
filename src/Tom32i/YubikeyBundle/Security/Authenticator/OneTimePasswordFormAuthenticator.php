@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -70,24 +70,24 @@ class OneTimePasswordFormAuthenticator implements SimpleFormAuthenticatorInterfa
         try {
             $user = $userProvider->loadUserByUsername($token->getUsername());
         } catch (UsernameNotFoundException $e) {
-            throw new CustomUserMessageAuthenticationException('Invalid username or password');
+            throw new BadCredentialsException('User not found.');
         }
 
         // Check that the provided password is valid.
         if (!$this->encoder->isPasswordValid($user, $token->getCredentials())) {
-            throw new CustomUserMessageAuthenticationException('Invalid username or password');
+            throw new BadCredentialsException('The presented password is invalid.');
         }
 
         $oneTimePassword = $token->getOneTimePassword();
 
         // Check that the provided one-time-password is valid.
         if (!$this->yubico->isValid($oneTimePassword)) {
-            throw new CustomUserMessageAuthenticationException('Invalid OTP.');
+            throw new BadCredentialsException('Invalid OTP.');
         }
 
         // Check that the provided one-time-password belongs to the user.
         if ($this->getYubikey($user) !== $this->yubico->getIdentity($oneTimePassword)) {
-            throw new CustomUserMessageAuthenticationException('Yubico identities mismatch.');
+            throw new BadCredentialsException('Yubico identities mismatch.');
         }
 
         // Everything's in order, move along.
@@ -114,7 +114,7 @@ class OneTimePasswordFormAuthenticator implements SimpleFormAuthenticatorInterfa
     public function createToken(Request $request, $username, $password, $providerKey)
     {
         if (!$oneTimePassword = $this->getOneTimePassword($request)) {
-            throw new CustomUserMessageAuthenticationException('OTP is required');
+            throw new BadCredentialsException('OTP is required');
         }
 
         return new UsernamePasswordOTPToken($username, $password, $oneTimePassword, $providerKey);
@@ -149,6 +149,6 @@ class OneTimePasswordFormAuthenticator implements SimpleFormAuthenticatorInterfa
             return $user->getYubiKey();
         }
 
-        throw new CustomUserMessageAuthenticationException('User is not associated to a Yubikey');
+        throw new BadCredentialsException('User is not associated to a Yubikey');
     }
 }
