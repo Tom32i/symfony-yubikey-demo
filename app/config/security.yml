@@ -50,6 +50,8 @@ security:
                 path: /logout
                 target: /
 
+            entry_point: security.authentication.otp_form_entry_point.main
+
     access_control:
         - { path: ^/profile/two-factor, roles: IS_AUTHENTICATED_TWO_FACTOR }
         - { path: ^/profile/fully, roles: IS_AUTHENTICATED_FULLY }

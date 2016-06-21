@@ -6,6 +6,7 @@ login:
     path: /login
     defaults:
       _controller: Tom32iYubikeyBundle:Security:login
+      template: ':default:login.html.twig'
 
 login_simple:
     path: /login-simple

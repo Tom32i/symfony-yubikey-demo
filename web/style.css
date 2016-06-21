@@ -5,8 +5,8 @@ body {
 
 .content {
     background-color: white;
-    padding: 1em;
-    border-radius: 2px;
+    padding: 1.4rem 2rem;
+    border-radius: 0.4rem;
 }
 
 .status-panel {
@@ -30,6 +30,13 @@ body {
     width: 100%;
 }
 
+.menu hr {
+    display: block;
+    width: 25%;
+    border-color: #999999;
+    margin: 1em auto;
+}
+
 .status {
     font-weight: normal;
     font-size: 1em;
@@ -37,7 +44,12 @@ body {
     color: white;
     border-radius: 0.2em;
     font-family: monospace;
+    background-color: #999999;
 }
 
 .status.on {  background-color: green; }
 .status.off {  background-color: red; }
+
+.content form {
+    margin: 0;
+}

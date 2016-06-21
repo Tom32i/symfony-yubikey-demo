@@ -1,7 +1,10 @@
 <div class="menu">
     <a class="button button-outline button-small" href="{{ path('homepage') }}">Homepage</a>
+    <hr>
     <a class="button button-outline button-small" href="{{ path('profile') }}">Profile</a>
+    <a class="button button-outline button-small" href="{{ path('profile_fully') }}">Full Profile</a>
     <a class="button button-outline button-small" href="{{ path('profile_two_factor') }}">Two Factor Profile</a>
+    <hr>
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <a class="button button-outline button-small" href="{{ path('logout') }}">Logout</a>
     {% else %}

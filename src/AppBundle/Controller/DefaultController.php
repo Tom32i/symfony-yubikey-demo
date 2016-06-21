@@ -28,6 +28,15 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/profile/fully", name="profile_fully")
+     * @Template(":default:profile.html.twig")
+     */
+    public function profileFullyAction(Request $request)
+    {
+        return ['message' => 'Your are fully authenticated.'];
+    }
+
+    /**
      * @Route("/profile/two-factor", name="profile_two_factor")
      * @Template(":default:profile.html.twig")
      */
