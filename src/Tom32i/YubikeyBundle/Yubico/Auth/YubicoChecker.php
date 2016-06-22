@@ -28,6 +28,12 @@ class YubicoChecker extends AbstractAuthYubicoChecker
      */
     protected function getClient()
     {
-        return new Client($this->clientId, $this->apiKey);
+        $client = new Client($this->clientId, $this->apiKey);
+
+        foreach ($this->hosts as $host) {
+            $client->addURLpart($host);
+        }
+
+        return $client;
     }
 }

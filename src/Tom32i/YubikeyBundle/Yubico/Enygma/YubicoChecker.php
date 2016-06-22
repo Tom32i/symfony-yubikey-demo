@@ -33,6 +33,10 @@ class YubicoChecker extends AbstractAuthYubicoChecker
      */
     protected function getClient()
     {
-        return new Client($this->apiKey, $this->clientId);
+        $client = new Client($this->apiKey, $this->clientId, $this->hosts);
+
+        $client->setUseSecure($this->https);
+
+        return $client;
     }
 }

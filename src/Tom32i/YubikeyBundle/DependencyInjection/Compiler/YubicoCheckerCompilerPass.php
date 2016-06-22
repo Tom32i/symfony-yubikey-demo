@@ -37,6 +37,8 @@ class YubicoCheckerCompilerPass implements CompilerPassInterface
             ->setArguments([
                 $config['api_key'],
                 $config['client_id'],
+                $config['hosts'],
+                $config['https'],
             ])
         ;
 

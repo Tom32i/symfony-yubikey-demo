@@ -33,6 +33,8 @@
         >
             <!--argument>Client ID (automatically provided by extension)</argument-->
             <!--argument>API Key (automatically provided by extension)</argument-->
+            <!--argument>Hosts list (automatically provided by extension)</argument-->
+            <!--argument>Use HTTPS (automatically provided by extension)</argument-->
         </service>
 
         <!-- Two-Factor Authentication Voter -->

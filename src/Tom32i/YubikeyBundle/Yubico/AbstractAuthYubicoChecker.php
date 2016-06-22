@@ -22,12 +22,28 @@ abstract class AbstractAuthYubicoChecker implements YubicoCheckerInterface
     protected $clientId;
 
     /**
+     * Hosts list
+     *
+     * @var array
+     */
+    protected $hosts;
+
+    /**
+     * Use secure connexion
+     *
+     * @var boolean
+     */
+    protected $https;
+
+    /**
      * {@inheritdoc}
      */
-    public function __construct($apiKey, $clientId)
+    public function __construct($apiKey, $clientId, array $hosts = [], $https = true)
     {
         $this->apiKey = $apiKey;
         $this->clientId = $clientId;
+        $this->hosts = $hosts;
+        $this->https = $https;
     }
 
     /**
