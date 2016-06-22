@@ -31,16 +31,16 @@ security:
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
             # http_basic: ~
 
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-            form_login:
-                login_path: login_simple
-                check_path: login_simple
-                username_parameter: login[username]
-                password_parameter: login[password]
-
             otp_form_login:
                 login_path: login
                 check_path: login
+
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            #form_login:
+            #    login_path: login
+            #    check_path: login
+            #    username_parameter: login[username]
+            #    password_parameter: login[password]
 
             #simple_form:
             #    authenticator: tom32i_yubikey.simpl_form_authenticator.one_time_password
@@ -56,8 +56,6 @@ security:
             logout:
                 path: /logout
                 target: /
-
-            entry_point: security.authentication.otp_form_entry_point.main
 
     access_control:
         - { path: ^/profile/two-factor, roles: IS_AUTHENTICATED_TWO_FACTOR }

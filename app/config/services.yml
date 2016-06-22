@@ -2,33 +2,9 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-    yubico_api_client_id: 28953
-    yubico_api_secret_key:  J3rZpgwcKrx1k80QIqO22EkEQGQ=
 
 
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-
-    # One-Time-Password Form Autnehticator
-    #one_time_password_form_authenticator:
-    #    class: AppBundle\Security\Authenticator\OneTimePasswordFormAuthenticator
-    #    arguments:
-    #        - "@security.password_encoder"
-    #        - "@security.yubico_checker.enygma"
-#
-    ## Enigma Yubico Checker
-    #security.yubico_checker.enygma:
-    #    class: AppBundle\Yubico\Enygma\YubicoChecker
-    #    arguments:
-    #        - "%yubico_api_secret_key%"
-    #        - "%yubico_api_client_id%"
-#
-    ## Voter for "IS_AUTHENTICATED_TWO_FACTOR"
-    #security.two_factor_voter:
-    #    class: AppBundle\Security\Voter\TwoFactorAuthenticatedVoter
-    #    public: false
-    #    tags:
-    #        - { name: security.voter }
-#

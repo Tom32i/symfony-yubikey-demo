@@ -45,21 +45,16 @@ class OtpDaoAuthenticationProvider extends DaoAuthenticationProvider
         $this->yubicoChecker = $yubicoChecker;
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(TokenInterface $token)
-    {
-        return $token instanceof UsernamePasswordOTPToken && parent::supports($token);
-    }
-
     /**
      * {@inheritdoc}
      */
     public function authenticate(TokenInterface $token)
     {
         $authenticatedToken = parent::authenticate($token);
+
+        if (!$token instanceof UsernamePasswordOTPToken) {
+            return $authenticatedToken;
+        }
 
         return new UsernamePasswordOTPToken(
             $authenticatedToken->getUser(),
@@ -78,7 +73,7 @@ class OtpDaoAuthenticationProvider extends DaoAuthenticationProvider
         parent::checkAuthentication($user, $token);
 
         if (!$token instanceof UsernamePasswordOTPToken) {
-            throw new \Exception('Expected OTP');
+            return;
         }
 
         $oneTimePassword = $token->getOneTimePassword();

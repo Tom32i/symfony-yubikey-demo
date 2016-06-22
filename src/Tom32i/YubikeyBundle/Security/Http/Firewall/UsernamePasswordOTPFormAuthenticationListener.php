@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\ParameterBagUtils;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 use Tom32i\YubikeyBundle\Security\Authentication\Token\UsernamePasswordOTPToken;
+use Tom32i\YubikeyBundle\Security\Http\ParameterBagTester;
 
 class UsernamePasswordOTPFormAuthenticationListener extends AbstractAuthenticationListener
 {
@@ -68,10 +70,12 @@ class UsernamePasswordOTPFormAuthenticationListener extends AbstractAuthenticati
             $username = trim(ParameterBagUtils::getParameterBagValue($request->request, $this->options['username_parameter']));
             $password = ParameterBagUtils::getParameterBagValue($request->request, $this->options['password_parameter']);
             $oneTimePassword = ParameterBagUtils::getParameterBagValue($request->request, $this->options['otp_parameter']);
+            $hasSecondFactor = ParameterBagTester::hasParameterBagValue($request->request, $this->options['otp_parameter']);
         } else {
             $username = trim(ParameterBagUtils::getRequestParameterValue($request, $this->options['username_parameter']));
             $password = ParameterBagUtils::getRequestParameterValue($request, $this->options['password_parameter']);
             $oneTimePassword = ParameterBagUtils::getRequestParameterValue($request, $this->options['otp_parameter']);
+            $hasSecondFactor = ParameterBagTester::hasRequestParameterValue($request, $this->options['otp_parameter']);
         }
 
         if (strlen($username) > Security::MAX_USERNAME_LENGTH) {
@@ -80,8 +84,12 @@ class UsernamePasswordOTPFormAuthenticationListener extends AbstractAuthenticati
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
 
-        return $this->authenticationManager->authenticate(
-            new UsernamePasswordOTPToken($username, $password, $oneTimePassword, $this->providerKey)
-        );
+        if ($hasSecondFactor) {
+            $token = new UsernamePasswordOTPToken($username, $password, $oneTimePassword, $this->providerKey);
+        } else {
+            $token = new UsernamePasswordToken($username, $password, $this->providerKey);
+        }
+
+        return $this->authenticationManager->authenticate($token);
     }
 }

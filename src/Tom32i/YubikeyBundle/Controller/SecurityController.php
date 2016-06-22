@@ -24,7 +24,10 @@ class SecurityController extends Controller
         $form = $this->createForm(
             LoginType::class,
             ['username' => $authenticationUtils->getLastUsername()],
-            ['second_factor' => $second_factor]
+            [
+                'second_factor' => $second_factor,
+                'action' => $this->generateUrl('login'),
+            ]
         );
 
         if ($exception = $authenticationUtils->getLastAuthenticationError()) {
